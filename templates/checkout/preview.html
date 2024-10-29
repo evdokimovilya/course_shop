@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h2 style="margin-bottom: 30px;">Препдросмотр заказа</h2>
+<b>
+    <p class="mb-5" style="font-size: 20px;">Курсы </p>
+</b>
+
+{% for line in basket.basket_lines.all %}
+<div class="row mb-3">
+    <div class="col-md-2">
+        <img src="{{ line.course.image.url }}" width="150" height="150">
+    </div>
+    <div class="col-md-4">
+        <p>{{ line.course.title }}</p>
+
+    </div>
+    <div class="col-md-2">
+        <p style="font-size: 20px; color: red;">{{ line.course.price }} рублей.</p>
+    </div>
+</div>
+{% endfor %}
+<div class="col-md-8 mt-5">
+    <form method="post" action="{% url 'checkout_preview' %}">
+        {% csrf_token %}
+        <p style="font-size: 30px;">Итог: {{ basket.get_total_price }} р.</p>
+        <button type="submit" class="btn btn-primary">Оплатить</a>
+    </form>
+</div>
+{% endblock %}

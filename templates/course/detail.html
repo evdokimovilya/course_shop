@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="mb-4">{{ course.title }}</h1>
+<img src="http://{{ request.get_host }}{{ course.image.url }}">
+<p>{{ course.description }}</p>
+<h3>Содержание курса</h3>
+{% for lecture in course.course_lectures.all %}
+<p>{{ lecture.title }}</p>
+{% endfor %}
+
+<h3> Цена {{ course.price }} р.</h3>
+{% if course.id in request.basket.get_course_ids %}
+<a class="btn btn-primary" href="{% url 'basket' %}" role="button">Перейти в корзину</a>
+{% else %}
+<div id="buy-course-container">
+    <form id="buy-course" action="{% url 'basket_add' course.id %}" method="post">
+        {% csrf_token %}
+        <!-- <input type="hidden" name="course_id" value="{{ course.id }}"> -->
+        <button class="buy-course" type="submit">Добавить в корзину</button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
