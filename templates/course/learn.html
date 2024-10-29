@@ -21,9 +21,13 @@
                 {% if material.type == 'Text' %}
                 <p>{{ material.text }}</p>
                 {% elif material.type == 'Image' %}
+                {% if material.file %}
                 <img src="{{ material.file.url }}" height="300" weight="300" class="mb-3">
+                {% endif %}
                 {% elif material.type == 'Video' %}
+                {% if material.file %}
                 <video src="{{ material.file.url }}"></video>
+                {% endif %}
                 {% endif %}
                 {% endfor %}
             </div>
